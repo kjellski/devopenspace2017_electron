@@ -3,3 +3,14 @@
 // All of the Node.js APIs are available in this process.
 
 console.log('Hallo DevOpenSpace :)');
+
+const ipc = require('electron').ipcRenderer;
+const asyncMsgBtn = document.getElementById('async-msg');
+
+asyncMsgBtn.addEventListener('click', function () {
+  ipc.send('asynchronous-message', { foo: 'bar' });
+});
+
+ipc.on('asynchronous-reply', function (event, arg) {
+  document.getElementById('async-reply').innerHTML = JSON.stringify(arg);
+});

@@ -1,6 +1,7 @@
 const electron = require('electron');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
+const ipc = electron.ipcMain;
 
 const { createWindow } = require('./utils/window');
 const { createTrayIcon } = require('./utils/tray');
@@ -10,6 +11,11 @@ const { createTrayIcon } = require('./utils/tray');
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
+ipc.on('asynchronous-message', function (event, arg) {
+  console.log('event: ', event);
+  console.log('arg:', arg);
+  event.sender.send('asynchronous-reply', { baz: 'bam'});
+})
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
